@@ -1,0 +1,76 @@
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Button
+Public Class Form1
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
+        Dim newItem As New ListViewItem(tBox1.Text)
+        newItem.SubItems.Add(tBox2.Text)
+        newItem.SubItems.Add(tBox3.Text)
+        newItem.SubItems.Add(tBox4.Text)
+        newItem.SubItems.Add(tBox5.Text)
+
+        ProductList.Items.Add(newItem)
+
+        clearText()
+    End Sub
+
+    Sub clearText()
+        tBox1.Clear()
+        tBox2.Clear()
+        tBox3.Clear()
+        tBox4.Clear()
+        tBox5.Clear()
+
+    End Sub
+
+    Private queryToDelete As String
+    Private Sub ProductList_DoubleClick(sender As Object, e As EventArgs) Handles ProductList.DoubleClick
+
+        If ProductList.SelectedItems.Count > 0 Then
+            tBox1.Text = ProductList.SelectedItems(0).SubItems(0).Text
+            tBox2.Text = ProductList.SelectedItems(0).SubItems(1).Text
+            tBox3.Text = ProductList.SelectedItems(0).SubItems(2).Text
+            tBox4.Text = ProductList.SelectedItems(0).SubItems(3).Text
+            tBox5.Text = ProductList.SelectedItems(0).SubItems(4).Text
+        End If
+
+        btnAdd.Enabled = False
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
+        If ProductList.SelectedItems.Count > 0 Then
+            ProductList.SelectedItems(0).SubItems(0).Text = tBox1.Text
+            ProductList.SelectedItems(0).SubItems(1).Text = tBox2.Text
+            ProductList.SelectedItems(0).SubItems(2).Text = tBox3.Text
+            ProductList.SelectedItems(0).SubItems(3).Text = tBox4.Text
+            ProductList.SelectedItems(0).SubItems(4).Text = tBox5.Text
+        End If
+
+        btnAdd.Enabled = True
+        clearText()
+    End Sub
+
+    Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
+        Dim Answer = DialogResult
+        Answer = MessageBox.Show("Are you sure you want to clear?", "CLEAR", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If Answer = DialogResult.Yes Then
+            clearText()
+            ProductList.Items.Clear()
+
+        End If
+    End Sub
+
+    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+        If ProductList.SelectedItems.Count > 0 Then
+            Dim selectedQuery As ListViewItem = ProductList.SelectedItems(0)
+
+
+            Dim answer As DialogResult = MessageBox.Show("Are you sure you want to delete this?", "Deleting Item", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+
+            If answer = DialogResult.Yes Then
+                ProductList.Items.Remove(selectedQuery)
+
+            End If
+        End If
+    End Sub
+End Class
